@@ -79,18 +79,18 @@ class ExchangeRateHandler(BaseHandler):
             response = AjaxResponse()
             main_logger.debug("Requested exchange rate for %s and %s." % (curr_from, curr_to))
 
-            if not currency_handler.is_currency_supported(curr_from):
+            if not main_currency_handler.is_currency_supported(curr_from):
                 response.add_code(config.RESPONSE_ERROR)
                 response.add_msg('Currency %s not supported.' % curr_from)
                 return # move  to finally block
 
-            if not currency_handler.is_currency_supported(curr_to):
+            if not main_currency_handler.is_currency_supported(curr_to):
                 response.add_code(config.RESPONSE_ERROR)
                 response.add_msg('Currency %s not supported.' % curr_to)
                 return # move  to finally block
 
             # obtain and format the rate - Decimal is not json-serializable
-            rate = currency_handler.get_currencies_exchange_rate(curr_from, curr_to)
+            rate = main_currency_handler.get_currencies_exchange_rate(curr_from, curr_to)
             # assumed 6 precision points
             rate = "%.6f" % (rate)
 
@@ -113,12 +113,12 @@ class DefaultHandler(BaseHandler):
 
     def get(self):
         try:
+            response = AjaxResponse()
             if 'favicon' not in self.request.uri:
                 # favicon requests often come down from browsers
                 main_logger.warning("Incorrect url requested.")
                 response.add_msg("Incorrect request url.")
 
-            response = AjaxResponse()
             response.add_code(config.RESPONSE_NOTFOUND)
 
         except Exception, e:
@@ -142,14 +142,14 @@ if __name__ == '__main__':
     global main_logger
     main_logger = logger.init_logger('main')
 
-    global csv_handler
+    global main_csv_handler
     # TODO PASS THESE VALUES FROM CONFIG
-    csv_handler = csv_handler.CsvHandler(
+    main_csv_handler = csv_handler.CsvHandler(
         './assets', 'rates.csv', main_logger)
 
-    global currency_handler
-    currency_handler = currency_handler.CurrencyHandler(
-        csv_handler.get_csv_data(), main_logger)
+    global main_currency_handler
+    main_currency_handler = currency_handler.CurrencyHandler(
+        main_csv_handler.get_csv_data(), main_logger)
 
     http_server = tornado.httpserver.HTTPServer(Application())
     # TODO PASS PORT FROM CONFIG

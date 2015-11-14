@@ -29,7 +29,7 @@ class CsvHandler(object):
 				% os.path.join(file_path, file_name)
 			)
 			# no point running without these values.
-			raise IOError('No currency exchange rates provided.')
+			raise IOError('No csv file with currency exchange rates provided.')
 
 	def get_csv_data(self):
 		return self.csv_data

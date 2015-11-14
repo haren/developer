@@ -21,6 +21,7 @@ class CurrencyHandler(object):
 		"""
 		Returns the base rate between the passed currency and the USD.
 		"""
+		currency_code = currency_code.upper()
 		if not self.is_currency_supported(currency_code):
 			self.logger.warning(
 				"Unsupported currency %s requested."
