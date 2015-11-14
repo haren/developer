@@ -9,6 +9,8 @@ import json
 from tornado.options import define, options, parse_command_line
 
 import config
+import csv_handler
+import currency_handler
 
 class Application(tornado.web.Application):
 
@@ -26,7 +28,7 @@ class Application(tornado.web.Application):
         tornado.web.Application.__init__(self, handlers, **settings)
 
 
-class AjaxResponse:
+class AjaxResponse(object):
 
     """ Base class for forming responses
 
@@ -71,6 +73,8 @@ class ExchangeRateHandler(BaseHandler):
             response      = AjaxResponse()
             response.add_msg("RETURNING EXCHANGE RATE")
 
+            # currency_handler.get_currencies_exchange_rate('PLN', 'EUR')
+
         except Exception, e:
             response.add_code(config.RESPONSE_ERROR)
             response.add_msg('Internal Error')
@@ -101,6 +105,12 @@ class DefaultHandler(BaseHandler):
             self.finish()
 
 if __name__ == '__main__':
+
+    csv_handler = csv_handler.CsvHandler(
+        './assets', 'rates.csv')
+    currency_handler = currency_handler.CurrencyHandler(
+        csv_handler.get_csv_data())
+
     http_server = tornado.httpserver.HTTPServer(Application())
     # TODO PASS PORT FROM CONFIG
     http_server.listen(8888)
