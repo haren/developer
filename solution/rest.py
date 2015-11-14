@@ -5,8 +5,6 @@ import tornado.ioloop
 import tornado.httpserver
 import tornado.escape
 import tornado.web
-import json
-from tornado.options import define, options, parse_command_line
 
 import config
 import csv_handler
@@ -78,7 +76,10 @@ class ExchangeRateHandler(BaseHandler):
                 response.add_msg('Currency %s not supported.' % curr_to)
                 return # move  to finally block
 
+            # obtain and format the rate - Decimal is not json-serializable
             rate = currency_handler.get_currencies_exchange_rate(curr_from, curr_to)
+            rate = "%.6f" % (rate)
+
             response.add_code(config.RESPONSE_OK)
             response.add_field('rate', rate)
 

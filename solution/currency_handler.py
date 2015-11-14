@@ -1,6 +1,6 @@
 #!/bin/env python
 
-import csv_handler
+from decimal import Decimal
 
 class CurrencyHandler(object):
 
@@ -9,7 +9,7 @@ class CurrencyHandler(object):
 		rates - {'currency_code': exchange_rate}
 		"""
 		self.rates = {
-			k: float(v)
+			k: Decimal(v)
 			for k,v in rates.items()
 		}
 
