@@ -35,4 +35,8 @@ class CurrencyHandler(object):
 
 		if not a_usd or not b_usd:
 			return None
-		return a_usd / b_usd
+		# e.g. from EUR TO PLN, desired outcome is ~4.23
+		# what needs to be returned is
+		# USD/PLN (1USD in PLN) divided by
+		# USD/EUR (1USD in EUR)
+		return b_usd / a_usd
