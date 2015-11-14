@@ -84,6 +84,23 @@ All other requests will results in the following response
 
 ### Configuration
 
+The app does not have much configuration, yet if any values or paths (e.g. for CSV files) need to be changed, it can be done in `config.py`.
+
 ### Logging
 
+The application logs all important events into a time-rotating log file. The log file is structured as follows:
+```
+/logs/main.log/main.log
+```
+And is created automatically upon server start.
+
 ## Testing
+
+Test suite has been prepared for the app. To run the test suite, make sure the test is running and perform the following:
+
+```
+cd test
+python run_tests.py
+```
+
+The test process exists with an appropriate exit code so that it can be directly plugged into an e.g. continuous integration solutoin.
