@@ -13,7 +13,7 @@ The solution was prepared using [`virtualenv`](http://docs.python-guide.org/en/l
 brew install pip
 pip install virtualenv
 ```
-#### Using [easy_install]
+#### Using easy_install
 ```
 curl https://bootstrap.pypa.io/ez_setup.py -o - | sudo python # install easy_install
 sudo easy_install pip
@@ -23,7 +23,14 @@ When `pip` is installed, virtual environment for this project needs to be create
 ```
 pip install virtualenv
 cd $my_project_folder
-virtualenv venv
+virtualenv venv             # create virtual env. 
+source venv/bin/activate    # activate virtual env., puts you inside
+pip install -r requirements # installs all requirements for the project
+```
+
+After finishing the server run session, virtual environment can be deactivated by simply typing
+```
+deactivate
 ```
 
 ## Usage
