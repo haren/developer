@@ -66,8 +66,8 @@ class BaseHandler(tornado.web.RequestHandler):
     SUPPORTED_METHODS = ("GET")
 
     def write(self, *args, **kwargs):
-        # set correct header type
         main_logger.debug("Writing %s." % args)
+        # set correct header type
         self.set_header("Content-Type", "application/json")
         super(BaseHandler, self).write(*args, **kwargs)
 
