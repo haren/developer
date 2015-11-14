@@ -152,4 +152,5 @@ if __name__ == '__main__':
 
     http_server = tornado.httpserver.HTTPServer(Application())
     http_server.listen(config.PORT)
+    main_logger.debug("Application initialized.")
     tornado.ioloop.IOLoop.instance().start()
