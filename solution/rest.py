@@ -16,7 +16,7 @@ class Application(tornado.web.Application):
 
     def __init__(self):
         handlers = [
-            (r"/r/rate/(?P<curr_from>[^\/]*)/(?P<curr_to>[^\/]*)", ExchangeRateHandler),
+            (r"/rate/(?P<curr_from>[^\/]*)/(?P<curr_to>[^\/]*)", ExchangeRateHandler),
             (r".*", DefaultHandler)
         ]
 
@@ -29,20 +29,15 @@ class Application(tornado.web.Application):
 
 
 class AjaxResponse(object):
-
     """ Base class for forming responses
-
     status(code) 			to set status
     add_msg(str) 			to add a text message to response
     add_field(name, value) 	to add a name/value pair to json response
     """
 
-    def __init__(self, status=0, msg=''):
+    def __init__(self, status=0):
         self.response = {}
         self.response['status'] = status
-        self.response['msg'] = []
-        if msg and len(msg):
-            self.add_msg(msg)
 
     def get(self):
         return self.response
@@ -66,14 +61,26 @@ class BaseHandler(tornado.web.RequestHandler):
         self.set_header("Content-Type", "application/json")
         super(BaseHandler, self).write(*args, **kwargs)
 
+
 class ExchangeRateHandler(BaseHandler):
 
-    def get(self):
+    def get(self, curr_from, curr_to):
         try:
-            response      = AjaxResponse()
-            response.add_msg("RETURNING EXCHANGE RATE")
+            response = AjaxResponse()
 
-            # currency_handler.get_currencies_exchange_rate('PLN', 'EUR')
+            if not currency_handler.is_currency_supported(curr_from):
+                response.add_code(config.RESPONSE_ERROR)
+                response.add_msg('Currency %s not supported.' % curr_from)
+                return # move  to finally block
+
+            if not currency_handler.is_currency_supported(curr_to):
+                response.add_code(config.RESPONSE_ERROR)
+                response.add_msg('Currency %s not supported.' % curr_to)
+                return # move  to finally block
+
+            rate = currency_handler.get_currencies_exchange_rate(curr_from, curr_to)
+            response.add_code(config.RESPONSE_OK)
+            response.add_field('rate', rate)
 
         except Exception, e:
             response.add_code(config.RESPONSE_ERROR)
@@ -84,6 +91,7 @@ class ExchangeRateHandler(BaseHandler):
             	response.get())
             self.write(response)
             self.finish()
+
 
 class DefaultHandler(BaseHandler):
 
@@ -103,6 +111,7 @@ class DefaultHandler(BaseHandler):
             	response.get())
             self.write(response)
             self.finish()
+
 
 if __name__ == '__main__':
 
