@@ -55,10 +55,32 @@ After finishing the server run session (`ctrl/cmd + c`), virtual environment can
 deactivate
 ```
 
-
 ### Response Format
 
+All the responses are returned in `JSON` format. Sample response is presented below. Response always returns HTML code `200` and the status indicates request handling effect.
+
+ - `status` is an integer number,
+ - `rate` is a stringified decimal number with 6 precision digits.
+```
+{"status": 200, "rate": "4.229459"}
+```
+
 ### Routing
+
+Server handles only one url:
+```
+/rate/CURRENCY_FROM/CURRENCY_TO/
+```
+e.g.:
+```
+/rate/EUR/PLN/
+```
+
+All other requests will results in the following response
+
+```
+{"status": 404, "msg": "Incorrect request url."}
+```
 
 ### Configuration
 
