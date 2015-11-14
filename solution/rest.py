@@ -9,6 +9,11 @@ import tornado.web
 import config
 import csv_handler
 import currency_handler
+import logger
+
+##############################################################################
+# MAIN APPLICATION CLASS
+##############################################################################
 
 class Application(tornado.web.Application):
 
@@ -25,6 +30,9 @@ class Application(tornado.web.Application):
         )
         tornado.web.Application.__init__(self, handlers, **settings)
 
+##############################################################################
+# BASE RESPONSE CLASS
+##############################################################################
 
 class AjaxResponse(object):
     """ Base class for forming responses
@@ -49,6 +57,9 @@ class AjaxResponse(object):
     def add_field(self, name, value):
         self.response[name] = value
 
+##############################################################################
+# HANDLERS
+##############################################################################
 
 class BaseHandler(tornado.web.RequestHandler):
 
@@ -56,6 +67,7 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def write(self, *args, **kwargs):
         # set correct header type
+        main_logger.debug("Writing %s." % args)
         self.set_header("Content-Type", "application/json")
         super(BaseHandler, self).write(*args, **kwargs)
 
@@ -65,6 +77,7 @@ class ExchangeRateHandler(BaseHandler):
     def get(self, curr_from, curr_to):
         try:
             response = AjaxResponse()
+            main_logger.debug("Requested exchange rate for %s and %s." % (curr_from, curr_to))
 
             if not currency_handler.is_currency_supported(curr_from):
                 response.add_code(config.RESPONSE_ERROR)
@@ -78,12 +91,14 @@ class ExchangeRateHandler(BaseHandler):
 
             # obtain and format the rate - Decimal is not json-serializable
             rate = currency_handler.get_currencies_exchange_rate(curr_from, curr_to)
+            # assumed 6 precision points
             rate = "%.6f" % (rate)
 
             response.add_code(config.RESPONSE_OK)
             response.add_field('rate', rate)
 
         except Exception, e:
+            main_logger.exception("Rest server exception: %s" % e)
             response.add_code(config.RESPONSE_ERROR)
             response.add_msg('Internal Error')
 
@@ -98,28 +113,43 @@ class DefaultHandler(BaseHandler):
 
     def get(self):
         try:
+            if 'favicon' not in self.request.uri:
+                # favicon requests often come down from browsers
+                main_logger.warning("Incorrect url requested.")
+                response.add_msg("Incorrect request url.")
+
             response = AjaxResponse()
             response.add_code(config.RESPONSE_NOTFOUND)
-            response.add_msg("Incorrect request url.")
 
         except Exception, e:
-        	print e
+        	main_logger.exception("Rest server exception: %s" % e)
         	response.add_code(config.RESPONSE_ERROR)
         	response.add_msg('Internal Error')
 
         finally:
-            response = tornado.escape.json_encode(
-            	response.get())
-            self.write(response)
-            self.finish()
+            if 'favicon' not in self.request.uri:
+                response = tornado.escape.json_encode(
+                	response.get())
+                self.write(response)
+                self.finish()
 
+##############################################################################
+# MAIN APPLICATION
+##############################################################################
 
 if __name__ == '__main__':
 
+    global main_logger
+    main_logger = logger.init_logger('main')
+
+    global csv_handler
+    # TODO PASS THESE VALUES FROM CONFIG
     csv_handler = csv_handler.CsvHandler(
-        './assets', 'rates.csv')
+        './assets', 'rates.csv', main_logger)
+
+    global currency_handler
     currency_handler = currency_handler.CurrencyHandler(
-        csv_handler.get_csv_data())
+        csv_handler.get_csv_data(), main_logger)
 
     http_server = tornado.httpserver.HTTPServer(Application())
     # TODO PASS PORT FROM CONFIG

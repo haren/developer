@@ -8,6 +8,8 @@
 
 ### Configuration
 
+### Logging
+
 ## Installation
 
 ## Testing

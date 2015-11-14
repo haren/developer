@@ -1,1 +1,6 @@
+# ignore python output
 *.py[cod]
+
+# ignore logs
+*log*
+

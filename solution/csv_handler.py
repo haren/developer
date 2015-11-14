@@ -5,10 +5,11 @@ import csv
 
 class CsvHandler(object):
 
-	def __init__(self, file_path, file_name):
+	def __init__(self, file_path, file_name, logger):
 		"""
 		Assumes a two-column csv file. Additional columns will be truncated.
 		"""
+		self.logger = logger
 		self.csv_data = None
 		try:
 			# assumes a two-column csv file
@@ -17,8 +18,16 @@ class CsvHandler(object):
 				next(reader, None)  # skip the headers
 				self.csv_data = dict((rows[0],rows[1]) for rows in reader)
 
+			self.logger.info(
+				"Data successfully loaded from csv file: %s"
+				% os.path.join(file_path, file_name)
+			)
+
 		except IOError, e:
-			print e
+			self.logger.error(
+				"Couldn't load data from the passed csv file: %s"
+				% os.path.join(file_path, file_name)
+			)
 			# no point running without these values.
 			raise IOError('No currency exchange rates provided.')
 

@@ -4,11 +4,12 @@ from decimal import Decimal
 
 class CurrencyHandler(object):
 
-	def __init__(self, rates):
+	def __init__(self, rates, logger):
 		"""
 		rates - {'currency_code': exchange_rate}
 		"""
-		self.rates = {
+		self.logger = logger
+		self.rates 	= {
 			k: Decimal(v)
 			for k,v in rates.items()
 		}
@@ -21,6 +22,10 @@ class CurrencyHandler(object):
 		Returns the base rate between the passed currency and the USD.
 		"""
 		if not self.is_currency_supported(currency_code):
+			self.logger.warning(
+				"Unsupported currency %s requested."
+				% currency_code
+			)
 			return None
 		return self.rates[currency_code]
 
