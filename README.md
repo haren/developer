@@ -5,10 +5,21 @@ This repository contains a sample solution for the problem described [here](http
 It was written in Python 2.7, using [tornado 4.2.1](http://www.tornadoweb.org/en/stable/) as a server serving the REST requests.
 
 ## Installation and Requirements
-The solution was prepared using [`virtualenv`](http://docs.python-guide.org/en/latest/dev/virtualenvs/). The simplest way to install it is with [`pip`](https://pypi.python.org/pypi/pip), python's package manager.
+The environment can be setup in 2 ways:
 
-### Installation on Mac OS
-#### Using [brew](http://brew.sh/):
+1. Using [`docker-compose`](https://docs.docker.com/compose/)
+2. Using [`virtualenv`](http://docs.python-guide.org/en/latest/dev/virtualenvs/)
+
+Both setups are described below.
+
+### Docker-compose
+
+### Virtualenv
+
+The simplest way to install `virtualenv` is with [`pip`](https://pypi.python.org/pypi/pip), python's package manager.
+
+#### Installing `pip` on Mac OS
+Using [brew](http://brew.sh/):
 ```
 brew install pip
 pip install virtualenv
