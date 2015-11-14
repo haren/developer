@@ -137,7 +137,7 @@ And is created automatically upon server start.
 
 ## Testing
 
-IMPORTANT: When executing tests, make sure that the IP address under which the test suite sees the server is correct. This can be configured in `config.py` (`HOST` constant).
+**IMPORTANT** : When executing tests, make sure that the IP address under which the test suite sees the server is correct. This can be configured in `config.py` (`HOST` constant).
 
 Test suite has been prepared for the app. To run the test suite, make sure the test is running and perform the following:
 
