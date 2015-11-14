@@ -76,7 +76,7 @@ docker-machine ip MACHINE_NAME # if you are using docker-machine
 
 To start the server, perform the following:
 ```
-source venv/bin/activate    # activate virtual env. if you are not currently in it
+source venv/bin/activate    # activate virtual env (unless you have already done so)
 cd solution/
 python rest.py
 ```
