@@ -19,7 +19,7 @@ class Application(tornado.web.Application):
 
     def __init__(self):
         handlers = [
-            (r"/rate/(?P<curr_from>[^\/]*)/(?P<curr_to>[^\/]*)", ExchangeRateHandler),
+            (r"/rate/(?P<curr_from>[^\/]*)/(?P<curr_to>[^\/]*).*", ExchangeRateHandler),
             (r".*", DefaultHandler)
         ]
 
