@@ -1,9 +1,11 @@
 import unittest
 import sys
+import os
 
 sys.path.append('..')
 import csv_handler
 import logger
+import config
 
 
 class CsvHandlerTestCase(unittest.TestCase):
@@ -15,7 +17,8 @@ class CsvHandlerTestCase(unittest.TestCase):
     def test_incorrect_file_path(self):
         try:
             self.test_csv_handler = csv_handler.CsvHandler(
-                '../assets', 'RANDOM.csv', self.main_logger)
+                os.path.join('..', config.MAIN_CSV_PATH),
+                'RANDOM.csv', self.main_logger)
             self.assertEqual(True, False) # if we reach here test failed
         except IOError, e:
             self.assertEqual(
@@ -27,6 +30,8 @@ class CsvHandlerTestCase(unittest.TestCase):
     def test_correct_rates_file_path(self):
         try:
             self.test_csv_handler = csv_handler.CsvHandler(
-                '../assets', 'rates.csv', self.main_logger)
+                os.path.join('..', config.MAIN_CSV_PATH),
+                config.RATES_FILE_NAME, self.main_logger
+            )
         except Exception, e:
             self.assertEqual(True, False) # no exception should be thrown

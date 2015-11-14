@@ -1,10 +1,12 @@
 import unittest
 import sys
+import os
 
 sys.path.append('..')
 import currency_handler
 import csv_handler
 import logger
+import config
 
 
 class CurrencyHandlerTestCase(unittest.TestCase):
@@ -14,7 +16,9 @@ class CurrencyHandlerTestCase(unittest.TestCase):
 
         main_logger = logger.init_logger('main')
         test_csv_handler = csv_handler.CsvHandler(
-            '../assets', 'rates.csv', main_logger)
+            os.path.join('..', config.MAIN_CSV_PATH),
+            config.RATES_FILE_NAME, main_logger
+        )
 
         self.test_currency_handler = currency_handler.CurrencyHandler(
             test_csv_handler.get_csv_data(), main_logger)

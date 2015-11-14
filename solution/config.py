@@ -1,6 +1,11 @@
 #!/bin/env python
 
-# TODO move to env?
+# Api listening port
+PORT = 8888
+
+# CSV paths
+MAIN_CSV_PATH   = "./assets/"
+RATES_FILE_NAME = "rates.csv"
 
 # Response codes
 RESPONSE_ERROR         = 500

@@ -143,15 +143,13 @@ if __name__ == '__main__':
     main_logger = logger.init_logger('main')
 
     global main_csv_handler
-    # TODO PASS THESE VALUES FROM CONFIG
     main_csv_handler = csv_handler.CsvHandler(
-        './assets', 'rates.csv', main_logger)
+        config.MAIN_CSV_PATH, config.RATES_FILE_NAME, main_logger)
 
     global main_currency_handler
     main_currency_handler = currency_handler.CurrencyHandler(
         main_csv_handler.get_csv_data(), main_logger)
 
     http_server = tornado.httpserver.HTTPServer(Application())
-    # TODO PASS PORT FROM CONFIG
-    http_server.listen(8888)
+    http_server.listen(config.PORT)
     tornado.ioloop.IOLoop.instance().start()
