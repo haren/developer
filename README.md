@@ -19,6 +19,13 @@ curl https://bootstrap.pypa.io/ez_setup.py -o - | sudo python # install easy_ins
 sudo easy_install pip
 ```
 
+### Installation on Linux
+Depending on your distribution, you can get `pip` using one of the following:
+```
+sudo apt-get install python-pip
+
+sudo yum install python-pip
+```
 When `pip` is installed, virtual environment for this project needs to be created. Perform the following:
 ```
 pip install virtualenv
