@@ -55,9 +55,24 @@ source venv/bin/activate    # activate virtual env., puts you inside
 pip install -r requirements # installs all requirements for the project
 ```
 
-## Usage
+## Starting the server
 
-### Starting the server
+### Docker-compose
+To start the server running in the docker container, make sure you have a built docker image and run the following:
+```
+docker-compose up
+```
+This creates a container with the `rest.py` running inside. The server is up and running and by default listening on `DOCKER_DEFAULT_IP:8888`. 
+
+Verifying docker ip:
+```
+boot2docker ip # if you are using boot2docker
+```
+```
+docker-machine ip MACHINE_NAME # if you are using docker-machine
+```
+
+### Virtualenv
 
 To start the server, perform the following:
 ```
@@ -68,12 +83,18 @@ python rest.py
 
 The server is up and running and by default listening on `127.0.0.1:8888`. The `PORT` value van be changed in the file `config.py`.
 
-### Shutting down the server
+## Shutting down the server
 
+### Docker-compose
+Simply stop the running compose environment (`ctrl/cmd + c`).
+
+### Virtualenv
 After finishing the server run session (`ctrl/cmd + c`), virtual environment can be deactivated by simply typing
 ```
 deactivate
 ```
+
+## Usage
 
 ### Response Format
 
@@ -116,6 +137,8 @@ And is created automatically upon server start.
 
 ## Testing
 
+IMPORTANT: When executing tests, make sure that the IP address under which the test suite sees the server is correct. This can be configured in `config.py` (`HOST` constant).
+
 Test suite has been prepared for the app. To run the test suite, make sure the test is running and perform the following:
 
 ```
@@ -123,4 +146,4 @@ cd test
 python run_tests.py
 ```
 
-The test process exists with an appropriate exit code so that it can be directly plugged into an e.g. continuous integration solutoin.
+The test process exists with an appropriate exit code so that it can be directly plugged into an e.g. continuous integration solution.
