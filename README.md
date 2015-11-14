@@ -35,14 +35,26 @@ source venv/bin/activate    # activate virtual env., puts you inside
 pip install -r requirements # installs all requirements for the project
 ```
 
-After finishing the server run session, virtual environment can be deactivated by simply typing
+## Usage
+
+### Starting the server
+
+To start the server, perform the following:
+```
+source venv/bin/activate    # activate virtual env. if you are not currently in it
+cd solution/
+python rest.py
+```
+
+The server is up and running and by default listening on `127.0.0.1:8888`. The `PORT` value van be changed in the file `config.py`.
+
+### Shutting down the server
+
+After finishing the server run session (`ctrl/cmd + c`), virtual environment can be deactivated by simply typing
 ```
 deactivate
 ```
 
-## Usage
-
-### Starting the server
 
 ### Response Format
 
