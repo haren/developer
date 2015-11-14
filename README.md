@@ -14,6 +14,15 @@ Both setups are described below.
 
 ### Docker-compose
 
+To run the app using `docker` and `docker-compose` you need them installed. Installation instructions for `docker` can be found [here](http://docs.docker.com/engine/installation/), and for `docker-compose` [here](https://docs.docker.com/compose/install/).
+
+When both are installed, the docker image needs to be built from the defined `Dockerfile` with the following:
+```
+docker build .
+```
+
+The environment is now ready to run the app.
+
 ### Virtualenv
 
 The simplest way to install `virtualenv` is with [`pip`](https://pypi.python.org/pypi/pip), python's package manager.
@@ -30,7 +39,7 @@ curl https://bootstrap.pypa.io/ez_setup.py -o - | sudo python # install easy_ins
 sudo easy_install pip
 ```
 
-### Installation on Linux
+#### Installation on Linux
 Depending on your distribution, you can get `pip` using one of the following:
 ```
 sudo apt-get install python-pip
