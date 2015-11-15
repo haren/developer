@@ -96,6 +96,8 @@ After finishing the server run session (`ctrl/cmd + c`), virtual environment can
 deactivate
 ```
 
+Both setups have been tested on `OS X El Captain 10.11.1` and `Amazon Linux AMI 2015.03`.
+
 ## Usage
 
 ### Response Format
