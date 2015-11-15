@@ -85,6 +85,8 @@ python rest.py
 
 The server is up and running and by default listening on `127.0.0.1:8888`. The `PORT` value van be changed in the file `config.py`.
 
+**Both setups have been tested on `OS X El Captain 10.11.1` and `Amazon Linux AMI 2015.03`.**
+
 ## Shutting down the server
 
 ### Docker-compose
@@ -95,8 +97,6 @@ After finishing the server run session (`ctrl/cmd + c`), virtual environment can
 ```
 deactivate
 ```
-
-Both setups have been tested on `OS X El Captain 10.11.1` and `Amazon Linux AMI 2015.03`.
 
 ## Usage
 
