@@ -5,7 +5,7 @@
 # docker-machine ip dev
 # or
 # boot2docker ip
-HOST = "192.168.59.103" # localhost - "127.0.0.1", boot2docker on mac: "192.168.59.103"
+HOST = "127.0.0.1" # localhost - "127.0.0.1", boot2docker on mac: "192.168.59.103"
 
 # Api listening port
 PORT = 8888
