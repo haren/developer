@@ -18,6 +18,7 @@ To run the app using `docker` and `docker-compose` you need them installed. Inst
 
 When both are installed, the docker image needs to be built from the defined `Dockerfile` with the following:
 ```
+cd solution
 docker build .
 ```
 
@@ -49,7 +50,7 @@ sudo yum install python-pip
 When `pip` is installed, virtual environment for this project needs to be created. Perform the following:
 ```
 pip install virtualenv
-cd $my_project_folder
+cd $main_project_folder/solution/
 virtualenv venv             # create virtual env. 
 source venv/bin/activate    # activate virtual env., puts you inside
 pip install -r requirements # installs all requirements for the project
@@ -60,6 +61,7 @@ pip install -r requirements # installs all requirements for the project
 ### Docker-compose
 To start the server running in the docker container, make sure you have a built docker image and run the following:
 ```
+cd solution
 docker-compose up
 ```
 This creates a container with the `rest.py` running inside. The server is up and running and by default listening on `DOCKER_DEFAULT_IP:8888`. 
