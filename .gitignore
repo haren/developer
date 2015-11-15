@@ -2,7 +2,7 @@
 *.py[cod]
 
 # ignore logs
-*log*
+*logs*
 
 # ignore venv
 *venv*
